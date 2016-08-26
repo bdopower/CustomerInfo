@@ -3,6 +3,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CustomerInfoApp.DataEntities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CustomerInfoApp.Models
 {
@@ -16,6 +20,7 @@ namespace CustomerInfoApp.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public ICollection<Customer> Customers { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +34,6 @@ namespace CustomerInfoApp.Models
         {
             return new ApplicationDbContext();
         }
+        public System.Data.Entity.DbSet<Customer> Customers { get; set; }
     }
 }
