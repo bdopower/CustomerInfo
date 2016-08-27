@@ -25,12 +25,14 @@ namespace CustomerInfoApp.Migrations
             ApplicationUser adminUser = new ApplicationUser()
             {
                 Email = "admin@bdo.com",
-                UserName = "admin@bdo.com",                
+                UserName = "admin@bdo.com",
+                isPasswordChanged = true,
             };
             ApplicationUser user = new ApplicationUser()
             {
                 Email = "user@bdo.com",
-                UserName = "user@bdo.com"
+                UserName = "user@bdo.com",
+                isPasswordChanged = true,
             };
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));

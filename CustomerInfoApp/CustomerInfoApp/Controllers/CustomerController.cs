@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CustomerInfoApp.DataEntities;
 using CustomerInfoApp.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CustomerInfoApp.Controllers
 {
@@ -15,10 +16,59 @@ namespace CustomerInfoApp.Controllers
     public class CustomerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public CustomerController()
+        {
+
+        }
+        public CustomerController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ActionResult List()
+        {
+            return View();
+        }
+        public JsonResult CustomerJson()
+        {
+            List<CustomerModel> dtoList = new List<CustomerModel>();
+            foreach (var item in db.Customers.ToList())
+            {
+                dtoList.Add(new CustomerModel()
+                {
+                    ActiveStatus = item.isActive == true ? "Active" : "Passive",
+                    Certificate = item.Certificate,
+                    EndDate = item.EndDate.HasValue ? item.EndDate.Value.ToShortDateString() : string.Empty,
+                    FullName = item.FullName,
+                    Id = item.Id,
+                    Phone = item.Phone,
+                    RegisteredBy = item.RegisteredBy.UserName,
+                    ReportNo = item.ReportNumber.ToString(),
+                    StartDate = item.StartDate.ToShortDateString()
+                });
+            }
+
+            return new JsonResult() { Data = dtoList, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
 
         // GET: Customer
         public ActionResult Index()
         {
+            var user = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            if (!user.isPasswordChanged)
+                return RedirectToAction("ChangePassword", "Manage", null);
             var customers = db.Customers.Include(c => c.RegisteredBy);
             return View(customers.ToList());
         }

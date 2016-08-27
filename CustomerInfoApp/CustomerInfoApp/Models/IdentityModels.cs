@@ -21,6 +21,7 @@ namespace CustomerInfoApp.Models
             return userIdentity;
         }
         public ICollection<Customer> Customers { get; set; }
+        public bool isPasswordChanged { get; set; } = false;
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

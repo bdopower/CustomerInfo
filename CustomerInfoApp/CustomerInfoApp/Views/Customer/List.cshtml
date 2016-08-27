@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer List</h2>
+<div class="row">
+    @Html.Hidden("IsAdmin", User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
+    {
+        <table class="table table-bordered" id="adminTable">
+            <thead>
+                <tr>
+                    <th>Registerer</th>
+                    <th>Full Name</th>
+                    <th>Phone</th>
+                    <th>Certificate</th>
+                    <th>Report No</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Active</th>
+                    <th>Admin</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    }
+    else
+    {
+        <table class="table table-bordered" id="userTable">
+            <thead>
+                <tr>
+                    <th>Registerer</th>
+                    <th>Full Name</th>
+                    <th>Phone</th>
+                    <th>Certificate</th>
+                    <th>Report No</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    }
+
+</div>
+
+@section scripts{
+
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            var isAdmin = $("#IsAdmin").val();
+            if (isAdmin == "True") {
+                createAdminTable();
+            } else {
+                createUserTable();
+            }
+        })
+        function createAdminTable() {
+            $('#adminTable').dataTable({
+                ajax: {
+                    url: "@Url.Action("CustomerJson","Customer")",
+                    dataType: 'json',
+                    dataSrc: function (json) {
+                        console.log(json);
+                        return json;
+                    }
+                },
+                columns: [
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.RegisteredBy;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.FullName;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Phone;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Certificate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.ReportNo;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.StartDate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.EndDate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.ActiveStatus;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            var html = "";
+                            html+="<td>";
+                            html += '<a href="/Customer/Edit/' + obj.Id + '" class="btn btn-xs btn-primary">Edit</a> ';
+                            html += '<a href="/Customer/Details/' + obj.Id + '" class="btn btn-xs btn-info">Details</a> ';
+                            html += '<a href="/Customer/Delete/' + obj.Id + '" class="btn btn-xs btn-danger">Delete</a> ';
+                            html += "</td>";
+                            return html;
+                        }
+                    }
+                ],
+                "order": [[4, "asc"]],
+                "lengthMenu": [
+                    [5, 10, 20, 30, -1],
+                    [5, 10, 20, 30, "All"] // change per page values here
+                ],
+                "pageLength": -1,
+                "language": {
+                    url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Arabic.json'
+                },
+            });
+        }
+        function createUserTable() {
+            $('#userTable').dataTable({
+                ajax: {
+                    url: "@Url.Action("CustomerJson","Customer")",
+                    dataType: 'json',
+                    dataSrc: function (json) {
+                        console.log(json);
+                        return json;
+                    }
+                },
+                columns: [
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.RegisteredBy;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.FullName;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Phone;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Certificate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.ReportNo;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.StartDate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.EndDate;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.ActiveStatus;
+                        }
+                    },
+                ],
+                "order": [[4, "asc"]],
+                "lengthMenu": [
+                    [5, 10, 20, 30, -1],
+                    [5, 10, 20, 30, "All"] // change per page values here
+                ],
+                "pageLength": -1,
+                "language": {
+                    url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Arabic.json'
+                },
+            });
+        }
+    </script>
+}

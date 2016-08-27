@@ -31,7 +31,7 @@ namespace CustomerInfoApp
             return Task.FromResult(0);
         }
     }
-
+    
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
@@ -49,7 +49,7 @@ namespace CustomerInfoApp
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
-
+            
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
@@ -85,6 +85,25 @@ namespace CustomerInfoApp
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public virtual Task<IdentityResult> SetPasswordChangedAsync(string userId, bool status)
+        {
+            try
+            {
+                var user = Store.FindByIdAsync(userId).Result;
+                if(user != null)
+                {
+                    user.isPasswordChanged = status;
+                    Store.UpdateAsync(user);
+                }
+                return Task.FromResult<IdentityResult>(IdentityResult.Success);
+            }
+            catch (Exception ex)
+            {
+                List<string> errors = new List<string>() { ex.Message };
+                return Task.FromResult<IdentityResult>(IdentityResult.Failed(errors.ToArray()));                
+            }
         }
     }
 
