@@ -54,6 +54,8 @@ namespace CustomerInfoApp.Controllers
                     FullName = item.FullName,
                     Id = item.Id,
                     Phone = item.Phone,
+                    Notes = item.Notes,
+                    OtherPhone = item.OtherPhone,
                     RegisteredBy = item.RegisteredBy.UserName,
                     ReportNo = item.ReportNumber.ToString(),
                     StartDate = item.StartDate.ToShortDateString()
@@ -70,7 +72,8 @@ namespace CustomerInfoApp.Controllers
             if (!user.isPasswordChanged)
                 return RedirectToAction("ChangePassword", "Manage", null);
             var customers = db.Customers.Include(c => c.RegisteredBy);
-            return View(customers.ToList());
+            return RedirectToAction("List");
+            //return View(customers.ToList());
         }
 
         // GET: Customer/Details/5
@@ -134,13 +137,13 @@ namespace CustomerInfoApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FullName,Phone,Certificate,ReportNumber,StartDate,EndDate,isActive,RegisteredById")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FullName,Phone,OtherPhone,Certificate,ReportNumber,StartDate,EndDate,isActive,RegisteredById,Notes")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             ViewBag.RegisteredById = new SelectList(db.Users, "Id", "Email", customer.RegisteredById);
             return View(customer);

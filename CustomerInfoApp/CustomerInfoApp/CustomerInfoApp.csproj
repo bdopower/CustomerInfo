@@ -183,6 +183,14 @@
     <Compile Include="Migrations\201608262214112_changePass.Designer.cs">
       <DependentUpon>201608262214112_changePass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609022105599_AddedNewPhone.cs" />
+    <Compile Include="Migrations\201609022105599_AddedNewPhone.Designer.cs">
+      <DependentUpon>201609022105599_AddedNewPhone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609022114184_Notes.cs" />
+    <Compile Include="Migrations\201609022114184_Notes.Designer.cs">
+      <DependentUpon>201609022114184_Notes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerModel.cs" />
@@ -573,6 +581,7 @@
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\List.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -587,6 +596,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608262214112_changePass.resx">
       <DependentUpon>201608262214112_changePass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609022105599_AddedNewPhone.resx">
+      <DependentUpon>201609022105599_AddedNewPhone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609022114184_Notes.resx">
+      <DependentUpon>201609022114184_Notes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

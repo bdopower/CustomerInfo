@@ -15,11 +15,13 @@
                     <th>Registerer</th>
                     <th>Full Name</th>
                     <th>Phone</th>
+                    <th>Otherphone</th>
                     <th>الاسم</th>
                     <th>Report No</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Active</th>
+                    <th>Notes</th>
                     <th>Admin</th>
                 </tr>
             </thead>
@@ -34,11 +36,13 @@
                     <th>Registerer</th>
                     <th>Full Name</th>
                     <th>Phone</th>
+                    <th>Otherphone</th>
                     <th>Certificate</th>
                     <th>Report No</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Active</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -88,6 +92,11 @@
                     },
                     {
                         "mRender": function (data, type, obj) {
+                            return obj.OtherPhone;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
                             return obj.Certificate;
                         }
                     },
@@ -109,6 +118,11 @@
                     {
                         "mRender": function (data, type, obj) {
                             return obj.ActiveStatus;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Notes;
                         }
                     },
                     {
@@ -162,6 +176,11 @@
                     },
                     {
                         "mRender": function (data, type, obj) {
+                            return obj.OtherPhone;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
                             return obj.Certificate;
                         }
                     },
@@ -183,6 +202,11 @@
                     {
                         "mRender": function (data, type, obj) {
                             return obj.ActiveStatus;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Notes;
                         }
                     },
                 ],
