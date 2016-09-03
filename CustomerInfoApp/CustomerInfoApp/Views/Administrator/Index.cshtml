@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User List</h2>
+<div class="row">
+    <table class="table table-bordered" id="applicationUserTable">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Role</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            createApplicationUserTable();
+        })
+        function createApplicationUserTable() {
+            $('#applicationUserTable').dataTable({
+                ajax: {
+                    url: "@Url.Action("UsersJson","Administrator")",
+                dataType: 'json',
+                dataSrc: function (json) {
+                    console.log(json);
+                    return json;
+                }
+            },
+                columns: [
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.UserName;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            return obj.Role;
+                        }
+                    },
+                    {
+                        "mRender": function (data, type, obj) {
+                            var html = "";
+                            html+="<td>";
+                            //html += '<a href="/Administrator/Edit/' + obj.Id + '" class="btn btn-xs btn-primary">Edit</a> ';
+                            //html += '<a href="/Administrator/Details/' + obj.Id + '" class="btn btn-xs btn-info">Details</a> ';
+                            html += '<a href="/Administrator/Delete/' + obj.Id + '" class="btn btn-xs btn-danger">Delete</a> ';
+                            html += "</td>";
+                            return html;
+                        }
+                    }
+                ],
+                //"order": [[4, "asc"]],
+                "lengthMenu": [
+                    [5, 10, 20, 30, -1],
+                    [5, 10, 20, 30, "All"] // change per page values here
+                ],
+                "pageLength": -1,
+                "language": {
+                url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Arabic.json'
+                },
+            });
+        }
+    </script>
+}

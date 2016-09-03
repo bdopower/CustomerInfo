@@ -24,29 +24,29 @@ namespace CustomerInfoApp.Migrations
             //
 
             //We are creating first users with database
-            //ApplicationUser adminUser = new ApplicationUser()
-            //{
-            //    Email = "admin@bdo.com",
-            //    UserName = "admin@bdo.com",
-            //    isPasswordChanged = true,
-            //};
-            //ApplicationUser user = new ApplicationUser()
-            //{
-            //    Email = "user@bdo.com",
-            //    UserName = "user@bdo.com",
-            //    isPasswordChanged = true,
-            //};
+            ApplicationUser adminUser = new ApplicationUser()
+            {
+                Email = "admin@bdo.com",
+                UserName = "admin@bdo.com",
+                isPasswordChanged = true,
+            };
+            ApplicationUser user = new ApplicationUser()
+            {
+                Email = "user@bdo.com",
+                UserName = "user@bdo.com",
+                isPasswordChanged = true,
+            };
 
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //roleManager.Create(new IdentityRole("Admin"));
-            //roleManager.Create(new IdentityRole("User"));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            roleManager.Create(new IdentityRole("Admin"));
+            roleManager.Create(new IdentityRole("User"));
 
-            //userManager.Create(adminUser, "123456");
-            //userManager.Create(user, "123456");
+            userManager.Create(adminUser, "123456");
+            userManager.Create(user, "123456");
 
-            //userManager.AddToRole(adminUser.Id, "Admin");
-            //userManager.AddToRole(user.Id, "User");
+            userManager.AddToRole(adminUser.Id, "Admin");
+            userManager.AddToRole(user.Id, "User");
 
         }
     }

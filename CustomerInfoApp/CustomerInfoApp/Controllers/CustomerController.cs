@@ -44,23 +44,48 @@ namespace CustomerInfoApp.Controllers
         public JsonResult CustomerJson()
         {
             List<CustomerModel> dtoList = new List<CustomerModel>();
-            foreach (var item in db.Customers.ToList())
+            if (User.IsInRole("Admin"))
             {
-                dtoList.Add(new CustomerModel()
+                foreach (var item in db.Customers.ToList())
                 {
-                    ActiveStatus = item.isActive == true ? "Active" : "Passive",
-                    Certificate = item.Certificate,
-                    EndDate = item.EndDate.HasValue ? item.EndDate.Value.ToShortDateString() : string.Empty,
-                    FullName = item.FullName,
-                    Id = item.Id,
-                    Phone = item.Phone,
-                    Notes = item.Notes,
-                    OtherPhone = item.OtherPhone,
-                    RegisteredBy = item.RegisteredBy.UserName,
-                    ReportNo = item.ReportNumber.ToString(),
-                    StartDate = item.StartDate.ToShortDateString()
-                });
+                    dtoList.Add(new CustomerModel()
+                    {
+                        ActiveStatus = item.isActive == true ? "Active" : "Passive",
+                        Certificate = item.Certificate,
+                        EndDate = item.EndDate.HasValue ? item.EndDate.Value.ToShortDateString() : string.Empty,
+                        FullName = item.FullName,
+                        Id = item.Id,
+                        Phone = item.Phone,
+                        Notes = item.Notes,
+                        OtherPhone = item.OtherPhone,
+                        RegisteredBy = item.RegisteredBy.UserName,
+                        ReportNo = item.ReportNumber.ToString(),
+                        StartDate = item.StartDate.ToShortDateString()
+                    });
+                }
             }
+            else
+            {
+                var loggedInUser = UserManager.FindByNameAsync(User.Identity.Name).Result;
+                foreach (var item in db.Customers.Where(q => q.RegisteredById == loggedInUser.Id).ToList())
+                {
+                    dtoList.Add(new CustomerModel()
+                    {
+                        ActiveStatus = item.isActive == true ? "Active" : "Passive",
+                        Certificate = item.Certificate,
+                        EndDate = item.EndDate.HasValue ? item.EndDate.Value.ToShortDateString() : string.Empty,
+                        FullName = item.FullName,
+                        Id = item.Id,
+                        Phone = item.Phone,
+                        Notes = item.Notes,
+                        OtherPhone = item.OtherPhone,
+                        RegisteredBy = item.RegisteredBy.UserName,
+                        ReportNo = item.ReportNumber.ToString(),
+                        StartDate = item.StartDate.ToShortDateString()
+                    });
+                }
+            }
+
 
             return new JsonResult() { Data = dtoList, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

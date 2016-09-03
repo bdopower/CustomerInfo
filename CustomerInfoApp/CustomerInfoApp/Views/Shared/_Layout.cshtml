@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css"  rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -28,10 +28,17 @@
                             <li>@Html.ActionLink("Add User", "Register", "Account")</li>
                         }
                     }
-                    @*<li>@Html.ActionLink("Customers", "Index", "Customer")</li>*@
+                    @{
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Administrator", "Index", "Administrator")</li>
+                        }
+                    }
                     <li>@Html.ActionLink("Customers", "List", "Customer")</li>
                     <li>@Html.ActionLink("Add Customer", "Create", "Customer")</li>
                     
+
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
