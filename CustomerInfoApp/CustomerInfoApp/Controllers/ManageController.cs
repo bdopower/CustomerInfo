@@ -237,7 +237,7 @@ namespace CustomerInfoApp.Controllers
                 
                 if (user != null)
                 {
-                    var passChanged = UserManager.SetPasswordChangedAsync(user.Id, true).Result;
+                    var passChanged = await UserManager.SetPasswordChangedAsync(user.Id, true);
                     if (passChanged.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

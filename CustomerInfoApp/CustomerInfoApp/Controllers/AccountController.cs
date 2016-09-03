@@ -156,7 +156,17 @@ namespace CustomerInfoApp.Controllers
                 //var result = await UserManager.CreateAsync(user, model.Password);
                 var result = await UserManager.CreateAsync(user, "123456");
                 if (result.Succeeded)
-                {                    
+                {
+                    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                    if (!roleManager.RoleExists(model.SelectedRole))
+                    {
+                        var roleCreation = roleManager.Create(new IdentityRole(model.SelectedRole));
+                        if (!roleCreation.Succeeded)
+                        {
+                            AddErrors(roleCreation);
+                            return View(model);
+                        }
+                    }
                     UserManager.AddToRole(user.Id, model.SelectedRole);
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 

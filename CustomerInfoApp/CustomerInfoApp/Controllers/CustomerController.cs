@@ -39,6 +39,9 @@ namespace CustomerInfoApp.Controllers
 
         public ActionResult List()
         {
+            var user = UserManager.FindByNameAsync(User.Identity.Name).Result;
+            if (!user.isPasswordChanged)
+                return RedirectToAction("ChangePassword", "Manage", null);
             return View();
         }
         public JsonResult CustomerJson()
